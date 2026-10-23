@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web前端技术推荐墙</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f0f2f5;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #1a202c;
+            margin-bottom: 24px;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        #searchInput {
+            display: block;
+            width: min(100%, 420px);
+            margin: 0 auto 30px;
+            padding: 12px 16px;
+            border: 1px solid #d6d9df;
+            border-radius: 8px;
+            font: inherit;
+            outline: none;
+        }
+        #searchInput:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+        }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .tech-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .tech-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .tech-card .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .tech-card h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .tech-card .desc {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        .tech-card .level {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #fff;
+            background: #667eea;
+            margin-bottom: 10px;
+        }
+        .tech-card .users {
+            font-size: 12px;
+            color: #aaa;
+        }
+        .empty-message {
+            grid-column: 1 / -1;
+            padding: 24px;
+            color: #888;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Web前端技术推荐墙</h1>
+    <input id="searchInput" type="search" placeholder="搜索技术" aria-label="搜索技术">
+    <div class="tech-grid" id="techGrid"></div>
+
+    <script>
+        const technologies = [
+            { icon: "🌐", name: "HTML5", desc: "网页的骨架", level: "入门", users: 100000 },
+            { icon: "🎨", name: "CSS3", desc: "网页的外衣", level: "入门", users: 95000 },
+            { icon: "⚡", name: "JavaScript", desc: "网页的灵魂", level: "入门", users: 98000 },
+            { icon: "💚", name: "Vue.js", desc: "渐进式框架", level: "进阶", users: 78000 },
+            { icon: "⚛️", name: "React", desc: "组件化UI库", level: "进阶", users: 82000 },
+            { icon: "🔷", name: "Node.js", desc: "JS后端运行时", level: "进阶", users: 65000 },
+            { icon: "📦", name: "TypeScript", desc: "带类型的JS", level: "进阶", users: 55000 },
+            { icon: "⚡", name: "Webpack", desc: "模块打包工具", level: "高级", users: 48000 },
+            { icon: "▲", name: "Vite", desc: "极速构建工具", level: "进阶", users: 42000 },
+            { icon: "▲", name: "Next.js", desc: "React全栈框架", level: "高级", users: 38000 }
+        ];
+
+        const techGrid = document.getElementById("techGrid");
+        const searchInput = document.getElementById("searchInput");
+
+        function renderTechnologies(items) {
+            const cards = items.map(t => `
+                <article class="tech-card">
+                    <div class="icon">${t.icon}</div>
+                    <h3>${t.name}</h3>
+                    <p class="desc">${t.desc}</p>
+                    <span class="level">${t.level}</span>
+                    <p class="users">${t.users.toLocaleString()} 人正在学习</p>
+                </article>
+            `).join("");
+
+            techGrid.innerHTML = cards || '<p class="empty-message">没有找到匹配的技术</p>';
+        }
+
+        searchInput.addEventListener("input", () => {
+            const keyword = searchInput.value.trim().toLowerCase();
+            const filteredTechnologies = technologies.filter(t =>
+                `${t.name} ${t.desc} ${t.level}`.toLowerCase().includes(keyword)
+            );
+
+            renderTechnologies(filteredTechnologies);
+        });
+
+        renderTechnologies(technologies);
+    </script>
+</body>
+</html>
